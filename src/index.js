@@ -26,12 +26,12 @@ app.get("/signup", (req,res) => {
 
 app.post("/signup", async (req, res) =>{
     const data = {
-        name : req.body.username,
+        username : req.body.username,
         password: req.body.password
     }
 
     // check if the user already exists in the database
-    const existingUser = await collection.findOne({name: data.name});
+    const existingUser = await collection.findOne({username: data.username});
     if(existingUser) {
         res.send ("user already exists. please choose a different username.");
     }else {
