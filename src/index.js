@@ -48,7 +48,7 @@ app.post("/signup", async (req, res) =>{
     // login user
 app.post("/login", async (req,res) => {
     try {
-        const check = await collection.findOne({name : req.body.username});
+        const check = await collection.findOne({username : req.body.username});
         if(!check) {
             res.send("username connot found");
         }
@@ -61,8 +61,9 @@ app.post("/login", async (req,res) => {
             req.send("wrong password");
         }
     
-    }catch{
-        res.send("wrong details");
+    }catch (error){
+        console.error("Error", error);
+       return res.status(500).send("wrong details");
     }
 })
    
