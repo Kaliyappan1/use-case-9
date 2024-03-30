@@ -50,12 +50,12 @@ app.post("/login", async (req,res) => {
     try {
         const check = await collection.findOne({name : req.body.username});
         if(!check) {
-            res.send("user name connot found");
+            res.send("username connot found");
         }
 
         // compare the hash password from the database with the plain text
         const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
-        if(!isPasswordMatch) {
+        if(isPasswordMatch) {
             res.render("home");
         }else {
             req.send("wrong password");
