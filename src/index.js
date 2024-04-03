@@ -2,6 +2,22 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const collection = require("./config");
+const winston = require('winston');
+const {combine, json, prettyPrint, timestamp} = winston.format;
+
+const loggers = winston.createLogger({
+    level: 'info',
+    format: combine(
+        timestamp(),
+        prettyPrint(),
+        json()
+    ),
+    transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'info.log' })
+    ]
+})
+
 
 const app = express();
 // convert data into json format
@@ -62,6 +78,7 @@ app.post("/login", async (req,res) => {
         }
     
     }catch (error){
+        loggers.error(error);
         console.error("Error", error);
        return res.status(500).send("wrong details");
     }
@@ -71,5 +88,6 @@ app.post("/login", async (req,res) => {
 })
 const port = 5000;
 app.listen(port, () => {
+    loggers.info('server started successfully.');
     console.log(`Server running on Port: ${port}`);
 })
