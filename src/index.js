@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const bcrypt = require("bcrypt");
 const collection = require("./config");
 const winston = require("winston");
@@ -83,8 +82,8 @@ app.post("/login", async (req, res) => {
     return res.status(500).send("wrong details");
   }
 });
-const port = 5000;
+const port = 5001;
 app.listen(port, () => {
-  loggers.info("server started successfully.");
+  loggers.info("server started successfully.");                               
   console.log(`Server running on Port: ${port}`);
 });
